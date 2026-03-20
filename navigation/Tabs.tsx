@@ -1,16 +1,17 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
-import BrowseScreen from '../screens/BrowseScreen';
-import ActivityScreen from '../screens/ActivityScreen';
+import SearchScreen from '../screens/SearchScreen';
+import LogScreen from '../screens/LogScreen';
+import ListsScreen from '../screens/ListsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import { Ionicons } from '@expo/vector-icons';
-import { Text } from 'react-native';
 
 export type TabParamList = {
   Home: undefined;
-  Browse: undefined;
-  Activity: undefined;
+  Search: undefined;
+  Log: undefined;
+  Lists: undefined;
   Profile: undefined;
 };
 
@@ -22,25 +23,25 @@ export default function Tabs() {
       initialRouteName="Home"
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarStyle: { backgroundColor: '#000' },
-        tabBarActiveTintColor: '#9acd32', // Letterboxd-ish green accent
-        tabBarInactiveTintColor: '#9ca3af',
+        tabBarStyle: { backgroundColor: '#14181c', borderTopColor: '#2c3440' },
+        tabBarActiveTintColor: '#00e054', // Letterboxd green
+        tabBarInactiveTintColor: '#99aabb',
         tabBarIcon: ({ color, size }) => {
-          const name =
-            route.name === 'Home' ? 'home' :
-            route.name === 'Browse' ? 'grid' :
-            route.name === 'Activity' ? 'time' :
-            'person';
-          return <Ionicons name={name as any} size={size} color={color} />;
+          let name: any;
+          if (route.name === 'Home') name = 'home';
+          else if (route.name === 'Search') name = 'search';
+          else if (route.name === 'Log') name = 'add-circle';
+          else if (route.name === 'Lists') name = 'list';
+          else if (route.name === 'Profile') name = 'person';
+          
+          return <Ionicons name={name} size={size} color={color} />;
         },
-        tabBarLabel: ({ color, children }) => (
-          <Text style={{ color, fontSize: 12 }}>{children}</Text>
-        ),
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Browse" component={BrowseScreen} />
-      <Tab.Screen name="Activity" component={ActivityScreen} />
+      <Tab.Screen name="Search" component={SearchScreen} />
+      <Tab.Screen name="Log" component={LogScreen} />
+      <Tab.Screen name="Lists" component={ListsScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
