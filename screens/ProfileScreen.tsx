@@ -3,9 +3,11 @@ import { View, Text, ScrollView, SafeAreaView, TouchableOpacity } from 'react-na
 import { useReadboxdStore } from '../store/useReadboxdStore';
 import BookCover from '../components/BookCover';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ProfileScreen() {
   const { currentUser, books, diary } = useReadboxdStore();
+  const navigation = useNavigation();
 
   const favoriteBooksData = currentUser.favoriteBookIds.map(id => books[id]).filter(Boolean);
 
@@ -20,8 +22,16 @@ export default function ProfileScreen() {
           </View>
           <Text className="text-white text-2xl font-bold">{currentUser.name}</Text>
           <Text className="text-textLight text-sm mb-2">{currentUser.handle}</Text>
-          <Text className="text-textLight text-center italic px-4">{currentUser.bio}</Text>
+          <Text className="text-textLight text-center italic px-4 mb-4">{currentUser.bio}</Text>
           
+          <TouchableOpacity 
+            onPress={() => navigation.navigate('Import' as never)}
+            className="flex-row items-center bg-surface border border-secondary px-4 py-2 rounded-full mb-2"
+          >
+            <Ionicons name="cloud-download-outline" size={16} color="#99aabb" className="mr-2" />
+            <Text className="text-textLight font-semibold ml-2">Import from Goodreads</Text>
+          </TouchableOpacity>
+
           <View className="flex-row mt-4 w-full justify-evenly">
             <View className="items-center">
               <Text className="text-white font-bold text-xl">{currentUser.stats.totalBooks}</Text>
